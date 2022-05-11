@@ -1,0 +1,168 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+.container.fluid {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  margin: 0 -12px;
+}
+
+.col {
+  padding: 0 12px;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-4 {
+  width: 33.33%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+.col-2 {
+  width: 16.6%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  color: #fff;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  padding: 6px 12px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  filter: brightness(90%);
+}
+
+.btn.btn-primary {
+  background-color: #0811ED;
+}
+
+.btn.btn-danger {
+  background-color: #F20101;
+}
+
+.btn.btn-secondary {
+  background-color: #6B92DC;
+}
+
+.main {
+  padding: 60px 110px 0 110px;
+  background-color: #F9F9F9;
+  min-height: 100vh;
+}
+
+.service {
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+  padding: 0 41px;
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+}
+
+.service__header {
+  border-bottom: 1px solid #000;
+}
+
+.service__header .service__heading {
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.service__list {
+  margin-top: 28px;
+}
+
+.service__item {
+  padding: 16px 24px;
+  border-radius: 20px;
+  margin: 8px;
+}
+
+.service.service--running .service__item {
+  background-color: #D5EAFD;
+}
+
+
+.service.service--stopped .service__item {
+  background-color: #FDE1D5;
+}
+
+.user-profile {
+  font-size: 1.6rem;
+  position: fixed;
+  right: 160px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  padding: 20px;
+}
+
+.user-profile__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-profile__avatar {
+  width: 220px;
+  height: 220px;
+  margin: 0;
+  margin-bottom: 12px;
+}
+
+.user-profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.user-profile__form-group {
+  padding: 8px 0;
+}
+
+.user-profile__form-label {
+  font-size: 1.5rem;
+  color: #6D6D6D;
+  margin-bottom: 12px;
+}
+
+.user-profile__form-input {
+  font-size: 1.8rem;
+}
+
+.user-profile__form .btn {
+  margin-top: 24px;
+  padding: 8px 24px;
+  border-radius: 10px;
+}
+
