@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/service-list.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="header__logo">
+                <p class="header__logo--content">My site</p>
+            </div>
+            <ul class="header__right">
+                <li class="header__content--item">
+                    <a href="./home.html" class="center-text ">Trang chủ</a>
+                </li>
+                <li class="header__content--item">
+                    <a href="./service-list.html" class="center-text active">My service</a>
+                </li>
+                <li class="header__content--logout">
+                    <button class="center-text bg-none" onclick="logout()">Đăng xuất</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container-fluid content">
+            <div class="service__header">
+                <h2 class="service__heading">
+                    Tạo dịch vụ mới
+                </h2>
+            </div>
+            <div class="add__service">
+                <div class="add__form">
+                    <div class="add__form--item flex">
+                        <p class="add_form--input__tittle">
+                            Mã môn học:
+                        </p>
+                        <select class="add_form--input" id="class-code-input" name="class-code">
+                            <option value="int123">INT123</option>
+                            <option value="int124">INT124</option>
+                            <option value="int125">INT125</option>
+                            <option value="int126">INT126</option>
+                        </select>
+                    </div>
+                    <div class="add__form--item flex">
+                        <p class="add_form--input__tittle">
+                            Tên môn học:
+                        </p>
+                        <select disabled class="add_form--input" id="class-name-input" name="class-code">
+                            <option value="int123">Toán rời rạc</option>
+                            <option value="int124">Lập trình mạng</option>
+                            <option value="int125">CTDL & GT</option>
+                            <option value="int126">Giải tích 1</option>
+                        </select>
+                    </div>
+                    <div class="add__form--item flex">
+                        <p class="add_form--input__tittle">
+                            Ngày trong tuần:
+                        </p>
+                        <select class="add_form--input" id="day-input" name="class-code">
+                            <option value="1">Thứ 2</option>
+                            <option value="2">Thứ 3</option>
+                            <option value="3">Thứ 4</option>
+                            <option value="4">Thứ 5</option>
+                            <option value="5">Thứ 6</option>
+                            <option value="6">Thứ 7</option>
+                            <option value="0">Chủ nhật</option>
+                        </select>
+                    </div>
+                    <div class="add__form--item ">
+                        <p class="add_form--input__tittle">
+                            Thời gian đăng kí:
+                        </p>
+                        <div class="add_form--time__input flex">
+                            <div class="input-time flex">
+                                <p class="input--time__tittle">
+                                    Từ:
+                                </p>
+                                <input class="input--time__input" id="from" type="number">
+                            </div>
+                            <div class="input-time flex">
+                                <p class="input--time__tittle">
+                                    Đến:
+                                </p>
+                                <input class="input--time__input" id="to" type="number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add__form--item flex py-4 mr-5">
+                        <button class="jumbotron-button" onclick="createService()">
+                            Tạo dịch vụ mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const id = localStorage.getItem('id')
+        const code = localStorage.getItem('code')
+        const telegram = localStorage.getItem('telegram')
+
+        async function createService() {
+
+            const class_code = $('#class-code-input').val();
+            const day_of_week = $('#day-input').val();
+            const from = $('#from').val();
+            const to = $('#to').val();
+            if (from > 0 && to < 24 && from < to) {
+                const response = await fetch('http://localhost:8080/service/start', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'stu_id': id,
+                        'code': class_code,
+                        'day': day_of_week,
+                        'from': from,
+                        'to': to
+                    })
+                });
+                alert('Tạo service thành công')
+                setTimeout(() => {
+                    location.assign('home.html');
+                }, "3000")
+            }
+            else {
+                alert('Thời gian đăng kí > 0 và < 24, thời gian bắt đầu nhỏ hơn thời gian kết thúc')
+            }
+
+        }
+
+        $('#class-code-input').change(() => {
+            $('#class-name-input').val($('#class-code-input').val())
+        })
+
+        function logout() {
+            localStorage.removeItem('id')
+            localStorage.removeItem('code')
+            localStorage.removeItem('telegram')
+            location.assign('login.html');
+        }
+        if (id === null || id == undefined) {
+
+            alert('Ban chua dang nhap')
+            setTimeout(() => {
+                location.assign('login.html');
+            }, "3000")
+        } else {
+
+
+        }
+    </script>
+</body>
+
+</html>

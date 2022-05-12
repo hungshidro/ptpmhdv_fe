@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="/css/service-list.css">
+  <link rel="stylesheet" href="/css/main.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+
+  </script>
+
+  <header class="header" id="header">
+    <nav class="navbar">
+      <div class="header__logo">
+        <p class="header__logo--content">My site</p>
+      </div>
+      <ul class="header__right">
+        <li class="header__content--item">
+          <a href="./home.html" class="center-text ">Trang chủ</a>
+        </li>
+        <li class="header__content--item">
+          <a href="./service-list.html" class="center-text active">My service</a>
+        </li>
+        <li class="header__content--logout">
+          <button class="center-text bg-none" onclick="logout()">Đăng xuất</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main class="main">
+    <div class="container fluid">
+      <div class="row">
+        <div class="col col-9">
+
+          <!-- service running -->
+          <div class="service service--running content">
+            <div class="service__header">
+              <h2 class="service__heading">
+                Service running
+              </h2>
+            </div>
+            <ul class="service__list" id="running-service">
+
+
+            </ul>
+          </div>
+
+
+          <!-- Service stopped -->
+          <div class="service service--stopped content">
+            <div class="service__header">
+              <h2 class="service__heading">
+                Service stopped
+              </h2>
+            </div>
+            <ul class="service__list" id="stopped-service">
+
+            </ul>
+          </div>
+        </div>
+        <div class="col col-3">
+          <div class="user-profile content">
+            <form action="" class="user-profile__form">
+              <div class="user-profile__avatar">
+                <img src="https://thuthuatnhanh.com/wp-content/uploads/2019/05/gai-xinh-toc-ngan-facebook.jpg" alt="">
+              </div>
+              <div class="user-profile__form-group">
+                <div class="user-profile__form-label">
+                  Mã SV
+                </div>
+                <input type="text" disabled class="user-profile__form-input" id="student-code">
+              </div>
+              <div class="user-profile__form-group">
+                <div class="user-profile__form-label">
+                  Telegram ID
+                </div>
+                <input type="text" class="user-profile__form-input " id="telegram">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="update()">
+                Chỉnh sửa
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+<script>
+
+  const id = localStorage.getItem('id')
+  const code = localStorage.getItem('code')
+  const telegram = localStorage.getItem('telegram')
+
+  function logout() {
+    localStorage.removeItem('id')
+    localStorage.removeItem('code')
+    localStorage.removeItem('telegram')
+    location.assign('login.html');
+  }
+
+  async function update() {
+    const response = await fetch('http://localhost:8080/student/update', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        'id': id,
+        'telegram': $('#telegram').val()
+      })
+    });
+    const res = await response.json();
+    localStorage.setItem('telegram',$('#telegram').val())
+    alert('Cập nhật thành công')
+    location.reload()
+  }
+
+  async function stopService(service_id) {
+    const response = await fetch('http://localhost:8080/service/stop', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        'id': service_id
+      })
+
+    });
+    const res = await response.json();
+    let insert = document.getElementById('running-service').lastChild;
+    insert.remove()
+    alert('Service Stopped')
+    location.reload()
+  }
+
+  async function restartService(service_id) {
+    const response = await fetch('http://localhost:8080/service/restart', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        'id': service_id
+      })
+
+    });
+    const res = await response.json();
+    let insert = document.getElementById('stopped-service').lastChild;
+    insert.remove()
+    alert('Service is running')
+    location.reload()
+  }
+
+  if (id === null || id == undefined) {
+
+    alert('Ban chua dang nhap')
+    setTimeout(() => {
+      location.assign('login.html');
+    }, "3000")
+  } else {
+
+    console.log('student id: ' + id)
+    $('#student-code').val(code)
+    $('#telegram').val(telegram)
+
+
+
+    const innit = async () => {
+      const response = await fetch('http://localhost:8080/student/getAllService/' + id, {
+        method: 'get',
+
+      });
+      const res = await response.json();
+      const service = res.data.service
+      console.log(service)
+      service.map((item) => {
+
+        const i = item.class
+
+        if (item.is_starting === 1) {
+          const child = '<li class="service__item"> ' +
+            '<div class="row">' +
+            '<div class="col col-4">' +
+            '<div class="service__identifier">' +
+            '<div>Mã môn học: ' + i.class_code + '</div>' +
+            '<div>Tên môn học: ' + i.name + '</div></div></div>' +
+            '<div class="col col-3">' +
+            '<div class="service__schedule">' +
+            '<div>Thứ ' + i.day_of_week + '</div>' +
+            '<div>Thời gian: từ ' + i.from + 'h đến ' + i.to + 'h</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="col col-3">' +
+            '<div class="service__status">' +
+            'Trạng thái: running' +
+            '</div>' +
+            '</div>' +
+            '<div class="col col-2">' +
+            '<button class="btn btn-danger" onclick="stopService(' + item.id + ')">' +
+            'Stop' +
+            '</button>' +
+            '</div>' +
+            '</div>' +
+            '</li>'
+          let insert = document.getElementById('running-service');
+          insert.insertAdjacentHTML("beforeend", child)
+        }
+        else {
+          const child = '<li class="service__item"> ' +
+            '<div class="row">' +
+            '<div class="col col-4">' +
+            '<div class="service__identifier">' +
+            '<div>Mã môn học: ' + i.class_code + '</div>' +
+            '<div>Tên môn học: ' + i.name + '</div></div></div>' +
+            '<div class="col col-3">' +
+            '<div class="service__schedule">' +
+            '<div>Thứ ' + i.day_of_week + '</div>' +
+            '<div>Thời gian: từ ' + i.from + 'h đến ' + i.to + 'h</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="col col-3">' +
+            '<div class="service__status">' +
+            'Trạng thái: stopped' +
+            '</div>' +
+            '</div>' +
+            '<div class="col col-2">' +
+            '<button class="btn btn-secondary" onclick="restartService(' + item.id + ')">' +
+            'Restart' +
+            '</button>' +
+            '</div>' +
+            '</div>' +
+            '</li>'
+          let insert = document.getElementById('stopped-service');
+          insert.insertAdjacentHTML("beforeend", child)
+        }
+      })
+
+    }
+    innit()
+  }
+
+
+</script>
+
+</html>

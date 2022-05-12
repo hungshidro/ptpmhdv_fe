@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/service-list.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="header__logo">
+                <p class="header__logo--content">My site</p>
+            </div>
+            <ul class="header__right">
+                <li class="header__content--item">
+                    <a href="./home.html" class="center-text active">Trang chủ</a>
+                </li>
+                <li class="header__content--item">
+                    <a href="./service-list.html" class="center-text ">My service</a>
+                </li>
+                <li class="header__content--logout">
+                    <button class="center-text bg-none" onclick="logout()">Đăng xuất</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+
+        <div class="container-fluid jumbotron">
+            <div class="jumbotron-context">
+                <div class="jumbotron-content">
+                    Sự hài lòng của bạn là Hạnh phúc của chúng tôi
+                </div>
+            </div>
+            <div class="jumbotron-context flex">
+                <button class="jumbotron-button" onclick="addService()">Tạo dịch vụ mới</button>
+            </div>
+        </div>
+
+        <div class="container-fluid content">
+            <div class="flex"></div>
+        </div>
+
+    </main>
+
+
+    <script>
+        const id = localStorage.getItem('id')
+        const code = localStorage.getItem('code')
+        const telegram = localStorage.getItem('telegram')
+
+        function logout() {
+            localStorage.removeItem('id')
+            localStorage.removeItem('code')
+            localStorage.removeItem('telegram')
+            location.assign('login.html');
+        }
+        function addService(){
+            location.assign('add-service.html');
+        }
+        if (id === null || id == undefined) {
+
+            alert('Ban chua dang nhap')
+            setTimeout(() => {
+                location.assign('login.html');
+            }, "3000")
+        } else {
+
+
+        }
+    </script>
+
+</body>
+
+</html>
