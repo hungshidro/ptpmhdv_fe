@@ -57,7 +57,7 @@
               <input type="text" id="code-login" name="code-login" class="form-control" placeholder="Mã sinh viên">
             </div>
             <div class="my-4 mx-3">
-              <input type="text" id="pass-login" name="pass-login" class="form-control" placeholder="Mật khẩu">
+              <input type="password" id="pass-login" name="pass-login" class="form-control" placeholder="Mật khẩu">
             </div>
           </form>
         </div>
@@ -90,14 +90,17 @@
                 placeholder="Mã sinh viên">
             </div>
             <div class="my-4 mx-3">
-              <input type="text" id="pass-register" name="pass-register" class="form-control" placeholder="Mật khẩu">
+              <input type="password" id="pass-register" name="pass-register" class="form-control"
+                placeholder="Mật khẩu">
             </div>
             <div class="my-4 mx-3">
               <input type="text" id="telegram-register" name="telegram-register" class="form-control"
                 placeholder="Telegram id">
             </div>
             <div>
-              <p class="note mx-3">Hướng dẫn lấy telegram id</p>
+              <!-- <a class="note mx-3">Hướng dẫn lấy telegram id</a> -->
+              <a target="_blank" href="https://trainghiemso.vn/tim-id-nguoi-dung-telegram/#:~:text=B%C6%B0%E1%BB%9Bc%201%3A%20%E1%BB%9E%20ph%E1%BA%A7n%20nh%E1%BA%ADp,bao%20g%E1%BB%93m%20ID%20c%E1%BB%A7a%20b%E1%BA%A1n."
+                class="note mx-3">Hướng dẫn lấy telegram id</a>
             </div>
           </form>
         </div>
@@ -118,15 +121,15 @@
 
 <script>
 
-const id = localStorage.getItem('id')
-if(id) location.assign('service-list.html');
+  const id = localStorage.getItem('id')
+  if (id) location.assign('service-list.html');
 
   async function register() {
     const code = $('#code-register').val();
     const pass = $('#pass-register').val();
     const telegram = $('#telegram-register').val();
 
-    const response = await fetch('http://localhost:8080/student/add', {
+    const response = await fetch('http://localhost:8000/student/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -149,7 +152,7 @@ if(id) location.assign('service-list.html');
     const code = $('#code-login').val();
     const pass = $('#pass-login').val();
 
-    const response = await fetch('http://localhost:8080/student/login', {
+    const response = await fetch('http://localhost:8000/student/login', {
       method: 'post',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

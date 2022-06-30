@@ -113,7 +113,7 @@
   }
 
   async function update() {
-    const response = await fetch('http://localhost:8080/student/update', {
+    const response = await fetch('http://localhost:8000/student/update', {
       method: 'put',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -124,13 +124,13 @@
       })
     });
     const res = await response.json();
-    localStorage.setItem('telegram',$('#telegram').val())
+    localStorage.setItem('telegram', $('#telegram').val())
     alert('Cập nhật thành công')
     location.reload()
   }
 
   async function stopService(service_id) {
-    const response = await fetch('http://localhost:8080/service/stop', {
+    const response = await fetch('http://localhost:8000/service/stop', {
       method: 'put',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -147,8 +147,31 @@
     location.reload()
   }
 
+  const convertClass = (cl) => {
+    switch (cl.toLowerCase()) {
+      case 'int123': return 'Toán rời rạc'
+      case 'int124': return 'Lập trình mạng'
+      case 'int125': return 'CTDL & GT'
+      case 'int126': return 'Giải tích 1'
+    }
+  }
+
+  const convertDay = (d) => {
+    switch (d) {
+
+      case 0: return 'chủ nhật'
+      case 1: return 'Thứ hai'
+      case 2: return 'Thứ ba'
+      case 3: return 'Thứ tư'
+      case 4: return 'Thứ năm'
+      case 5: return 'Thứ sáu'
+      case 6: return 'Thứ bảy'
+
+    }
+  }
+
   async function restartService(service_id) {
-    const response = await fetch('http://localhost:8080/service/restart', {
+    const response = await fetch('http://localhost:8000/service/restart', {
       method: 'put',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -180,28 +203,26 @@
 
 
     const innit = async () => {
-      const response = await fetch('http://localhost:8080/student/getAllService/' + id, {
+      const response = await fetch('http://localhost:8000/student/getAllService/' + id, {
         method: 'get',
 
       });
       const res = await response.json();
-      const service = res.data.service
+      const service = res.data
       console.log(service)
       service.map((item) => {
 
-        const i = item.class
-
-        if (item.is_starting === 1) {
+        if (item.is_running === 1) {
           const child = '<li class="service__item"> ' +
             '<div class="row">' +
             '<div class="col col-4">' +
             '<div class="service__identifier">' +
-            '<div>Mã môn học: ' + i.class_code + '</div>' +
-            '<div>Tên môn học: ' + i.name + '</div></div></div>' +
+            '<div>Mã môn học: ' + item.service.class_code + '</div>' +
+            '<div>Tên môn học: ' + convertClass(item.service.class_code) + '</div></div></div>' +
             '<div class="col col-3">' +
             '<div class="service__schedule">' +
-            '<div>Thứ ' + i.day_of_week + '</div>' +
-            '<div>Thời gian: từ ' + i.from + 'h đến ' + i.to + 'h</div>' +
+            '<div>' + convertDay(item.day_of_week) + '</div>' +
+            '<div>Thời gian: từ ' + item.from + 'h đến ' + item.to + 'h</div>' +
             '</div>' +
             '</div>' +
             '<div class="col col-3">' +
@@ -224,12 +245,12 @@
             '<div class="row">' +
             '<div class="col col-4">' +
             '<div class="service__identifier">' +
-            '<div>Mã môn học: ' + i.class_code + '</div>' +
-            '<div>Tên môn học: ' + i.name + '</div></div></div>' +
+            '<div>Mã môn học: ' + item.service.class_code + '</div>' +
+            '<div>Tên môn học: ' + convertClass(item.service.class_code) + '</div></div></div>' +
             '<div class="col col-3">' +
             '<div class="service__schedule">' +
-            '<div>Thứ ' + i.day_of_week + '</div>' +
-            '<div>Thời gian: từ ' + i.from + 'h đến ' + i.to + 'h</div>' +
+            '<div>' + convertDay(item.day_of_week) + '</div>' +
+            '<div>Thời gian: từ ' + item.from + 'h đến ' + item.to + 'h</div>' +
             '</div>' +
             '</div>' +
             '<div class="col col-3">' +

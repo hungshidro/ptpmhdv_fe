@@ -56,13 +56,24 @@
         const code = localStorage.getItem('code')
         const telegram = localStorage.getItem('telegram')
 
+        if (id === null || id == undefined) {
+
+            alert('Ban chua dang nhap')
+            setTimeout(() => {
+                location.assign('login.html');
+            }, "3000")
+        } else {
+
+
+        }
+
         function logout() {
             localStorage.removeItem('id')
             localStorage.removeItem('code')
             localStorage.removeItem('telegram')
             location.assign('login.html');
         }
-        function addService(){
+        function addService() {
             location.assign('add-service.html');
         }
         if (id === null || id == undefined) {

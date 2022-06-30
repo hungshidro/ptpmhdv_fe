@@ -46,10 +46,10 @@
                             Mã môn học:
                         </p>
                         <select class="add_form--input" id="class-code-input" name="class-code">
-                            <option value="int123">INT123</option>
-                            <option value="int124">INT124</option>
-                            <option value="int125">INT125</option>
-                            <option value="int126">INT126</option>
+                            <option value="1">INT123</option>
+                            <option value="2">INT124</option>
+                            <option value="3">INT125</option>
+                            <option value="4">INT126</option>
                         </select>
                     </div>
                     <div class="add__form--item flex">
@@ -57,10 +57,10 @@
                             Tên môn học:
                         </p>
                         <select disabled class="add_form--input" id="class-name-input" name="class-code">
-                            <option value="int123">Toán rời rạc</option>
-                            <option value="int124">Lập trình mạng</option>
-                            <option value="int125">CTDL & GT</option>
-                            <option value="int126">Giải tích 1</option>
+                            <option value="1">Toán rời rạc</option>
+                            <option value="2">Lập trình mạng</option>
+                            <option value="3">CTDL & GT</option>
+                            <option value="4">Giải tích 1</option>
                         </select>
                     </div>
                     <div class="add__form--item flex">
@@ -117,15 +117,16 @@
             const day_of_week = $('#day-input').val();
             const from = $('#from').val();
             const to = $('#to').val();
-            if (from > 0 && to < 24 && from < to) {
-                const response = await fetch('http://localhost:8080/service/start', {
+            console.log(from > 0,to < 24, Number(from) < Number(to))
+            if (from > 0 && to < 24 && Number(from) < Number(to)) {
+                const response = await fetch('http://localhost:8000/service/start', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
                         'stu_id': id,
-                        'code': class_code,
+                        'service_id': class_code,
                         'day': day_of_week,
                         'from': from,
                         'to': to

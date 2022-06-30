@@ -92,7 +92,7 @@ ul {
 .user-profile {
   font-size: 1.6rem;
   position: fixed;
-  right: 160px;
+  right: 120px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   padding: 20px;
 }
